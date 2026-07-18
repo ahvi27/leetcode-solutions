@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<vector<int>> result;
+
+    void backtrack(vector<int>& candidates, int target, 
+                   vector<int>& current, int index) {
+
+        // Found a valid combination
+        if (target == 0) {
+            result.push_back(current);
+            return;
+        }
+
+        // Try all candidates
+        for (int i = index; i < candidates.size(); i++) {
+
+            // Stop if candidate is too large
+            if (candidates[i] > target)
+                continue;
+
+            // Choose
+            current.push_back(candidates[i]);
+
+            // Reuse same number, so pass i not i+1
+            backtrack(candidates, target - candidates[i], current, i);
+
+            // Undo choice
+            current.pop_back();
+        }
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int> current;
+
+        backtrack(candidates, target, current, 0);
+
+        return result;
+    }
+};
