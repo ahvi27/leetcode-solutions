@@ -1,0 +1,94 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode(int x) {
+        val = x;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<vector<int>> result;
+        vector<int> path;
+
+        dfs(root, targetSum, path, result);
+
+        return result;
+    }
+
+private:
+    void dfs(TreeNode* node, int targetSum,
+             vector<int>& path,
+             vector<vector<int>>& result) {
+
+        if (node == nullptr)
+            return;
+
+        path.push_back(node->val);
+
+        if (node->left == nullptr && node->right == nullptr) {
+            if (targetSum == node->val)
+                result.push_back(path);
+        }
+        else {
+            dfs(node->left, targetSum - node->val, path, result);
+            dfs(node->right, targetSum - node->val, path, result);
+        }
+
+        path.pop_back();
+    }
+};
+
+void print(vector<vector<int>>& result) {
+    for (auto path : result) {
+        cout << "[ ";
+        for (int x : path)
+            cout << x << " ";
+        cout << "]" << endl;
+    }
+}
+
+int main() {
+
+    /*
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \       \
+        7    2       1
+
+    Target = 22
+    */
+
+    TreeNode* root = new TreeNode(5);
+
+    root->left = new TreeNode(4);
+    root->right = new TreeNode(8);
+
+    root->left->left = new TreeNode(11);
+    root->left->left->left = new TreeNode(7);
+    root->left->left->right = new TreeNode(2);
+
+    root->right->left = new TreeNode(13);
+    root->right->right = new TreeNode(4);
+    root->right->right->right = new TreeNode(1);
+
+    Solution sol;
+
+    vector<vector<int>> ans = sol.pathSum(root, 22);
+
+    print(ans);
+
+    return 0;
+}

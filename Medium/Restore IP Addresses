@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+vector<string> ans;
+
+void backtrack(string& s, int index, int parts, string current) {
+    if (parts == 4 && index == s.size()) {
+        current.pop_back(); // Remove last '.'
+        ans.push_back(current);
+        return;
+    }
+
+    if (parts == 4 || index == s.size())
+        return;
+
+    for (int len = 1; len <= 3 && index + len <= s.size(); len++) {
+        string segment = s.substr(index, len);
+
+        if ((segment.size() > 1 && segment[0] == '0') ||
+            stoi(segment) > 255)
+            continue;
+
+        backtrack(s, index + len, parts + 1,
+                  current + segment + ".");
+    }
+}
+
+vector<string> restoreIpAddresses(string s) {
+    ans.clear();
+
+    if (s.size() < 4 || s.size() > 12)
+        return ans;
+
+    backtrack(s, 0, 0, "");
+
+    return ans;
+}
+
+int main() {
+    string s;
+
+    cout << "Enter the digit string: ";
+    cin >> s;
+
+    vector<string> result = restoreIpAddresses(s);
+
+    cout << "Possible IP Addresses:\n";
+    for (string ip : result) {
+        cout << ip << endl;
+    }
+
+    return 0;
+}

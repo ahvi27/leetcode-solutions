@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    bool checkOnesSegment(string s) {
+
+        bool ended = false;
+
+        for (char c : s) {
+
+            if (c == '0') {
+                ended = true;
+            }
+            else {
+                // Found 1 after the segment already ended
+                if (ended)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+};
+
+
+int main() {
+
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+
+    string s;
+    cin >> s;
+
+
+    Solution sol;
+
+    cout << (sol.checkOnesSegment(s) ? "true" : "false");
+
+
+    return 0;
+}

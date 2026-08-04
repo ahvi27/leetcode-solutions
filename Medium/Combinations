@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> ans;
+    vector<int> path;
+
+    void backtrack(int start, int n, int k) {
+        if (path.size() == k) {
+            ans.push_back(path);
+            return;
+        }
+
+        for (int i = start; i <= n - (k - path.size()) + 1; i++) {
+            path.push_back(i);
+            backtrack(i + 1, n, k);
+            path.pop_back();
+        }
+    }
+
+    vector<vector<int>> combine(int n, int k) {
+        backtrack(1, n, k);
+        return ans;
+    }
+};
+
+int main() {
+    Solution sol;
+    vector<vector<int>> result = sol.combine(4, 2);
+
+    for (const auto &comb : result) {
+        cout << "[";
+        for (int i = 0; i < comb.size(); i++) {
+            cout << comb[i];
+            if (i + 1 < comb.size()) cout << ", ";
+        }
+        cout << "]" << endl;
+    }
+
+    return 0;
+}

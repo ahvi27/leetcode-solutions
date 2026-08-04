@@ -1,0 +1,80 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+
+int maxActiveSectionsAfterTrade(string s) {
+
+
+    int ans = 0;
+
+    int best = 0;
+
+
+    int prevZero = -1;
+
+
+    int i = 0;
+
+
+    while (i < s.size()) {
+
+
+        int j = i;
+
+
+        while (j < s.size() && s[j] == s[i]) {
+            j++;
+        }
+
+
+        int len = j - i;
+
+
+
+        if (s[i] == '1') {
+
+            ans += len;
+
+        }
+
+        else {
+
+
+            if (prevZero != -1) {
+
+                best = max(best, prevZero + len);
+
+            }
+
+
+            prevZero = len;
+
+        }
+
+
+        i = j;
+
+    }
+
+
+
+    return ans + best;
+
+}
+
+
+
+int main() {
+
+
+    string s = "0100";
+
+
+    cout << maxActiveSectionsAfterTrade(s);
+
+
+    return 0;
+}

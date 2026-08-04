@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode(int x) {
+        val = x;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+class Solution {
+private:
+    unordered_map<int, int> inorderIndex;
+    int postorderPos;
+
+    TreeNode* build(vector<int>& postorder, int left, int right) {
+        if (left > right)
+            return nullptr;
+
+        int rootValue = postorder[postorderPos--];
+        TreeNode* root = new TreeNode(rootValue);
+
+        int index = inorderIndex[rootValue];
+
+        // Build right subtree first
+        root->right = build(postorder, index + 1, right);
+        root->left = build(postorder, left, index - 1);
+
+        return root;
+    }
+
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        for (int i = 0; i < inorder.size(); i++)
+            inorderIndex[inorder[i]] = i;
+
+        postorderPos = postorder.size() - 1;
+
+        return build(postorder, 0, inorder.size() - 1);
+    }
+};
+
+// Print preorder traversal to verify the tree
+void printPreorder(TreeNode* root) {
+    if (!root)
+        return;
+
+    cout << root->val << " ";
+    printPreorder(root->left);
+    printPreorder(root->right);
+}
+
+int main() {
+    vector<int> inorder = {9, 3, 15, 20, 7};
+    vector<int> postorder = {9, 15, 7, 20, 3};
+
+    Solution sol;
+    TreeNode* root = sol.buildTree(inorder, postorder);
+
+    cout << "Preorder Traversal: ";
+    printPreorder(root);
+    cout << endl;
+
+    return 0;
+}

@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        stack<int> st;
+        heights.push_back(0); // Sentinel
+        int maxArea = 0;
+
+        for (int i = 0; i < heights.size(); i++) {
+            while (!st.empty() && heights[st.top()] > heights[i]) {
+                int h = heights[st.top()];
+                st.pop();
+
+                int width = st.empty() ? i : i - st.top() - 1;
+                maxArea = max(maxArea, h * width);
+            }
+            st.push(i);
+        }
+
+        return maxArea;
+    }
+};
+
+int main() {
+    Solution sol;
+
+    vector<int> h1 = {2,1,5,6,2,3};
+    cout << sol.largestRectangleArea(h1) << endl; // 10
+
+    vector<int> h2 = {2,4};
+    cout << sol.largestRectangleArea(h2) << endl; // 4
+
+    vector<int> h3 = {2,1,2};
+    cout << sol.largestRectangleArea(h3) << endl; // 3
+
+    return 0;
+}

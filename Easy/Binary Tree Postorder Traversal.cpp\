@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+
+struct TreeNode {
+
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode(int x) {
+        val = x;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+
+void postorder(TreeNode* root, vector<int>& ans) {
+
+    if (root == nullptr)
+        return;
+
+
+    // Left
+    postorder(root->left, ans);
+
+    // Right
+    postorder(root->right, ans);
+
+    // Root
+    ans.push_back(root->val);
+}
+
+
+int main() {
+
+    /*
+             1
+            / \
+           2   3
+          /
+         4
+    */
+
+
+    TreeNode* root = new TreeNode(1);
+
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+
+
+    vector<int> ans;
+
+    postorder(root, ans);
+
+
+    for (int x : ans) {
+        cout << x << " ";
+    }
+
+
+    return 0;
+}

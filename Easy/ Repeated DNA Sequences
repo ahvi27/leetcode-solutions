@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+vector<string> findRepeatedDnaSequences(string s) {
+    unordered_map<string, int> count;
+    vector<string> ans;
+
+    for (int i = 0; i + 9 < s.size(); i++) {
+        string sub = s.substr(i, 10);
+        count[sub]++;
+
+        if (count[sub] == 2)
+            ans.push_back(sub);
+    }
+
+    return ans;
+}
+
+int main() {
+    string s;
+
+    cout << "Enter DNA sequence: ";
+    cin >> s;
+
+    vector<string> result = findRepeatedDnaSequences(s);
+
+    cout << "Repeated DNA sequences:\n";
+    for (const string &seq : result) {
+        cout << seq << endl;
+    }
+
+    return 0;
+}

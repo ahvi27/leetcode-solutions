@@ -1,0 +1,34 @@
+#include <iostream>
+using namespace std;
+
+class Solution {
+public:
+    int maxProduct(int n) {
+        int largest = 0, secondLargest = 0;
+
+        while (n > 0) {
+            int digit = n % 10;
+            n /= 10;
+
+            if (digit > largest) {
+                secondLargest = largest;
+                largest = digit;
+            } else if (digit > secondLargest) {
+                secondLargest = digit;
+            }
+        }
+
+        return largest * secondLargest;
+    }
+};
+
+int main() {
+    Solution sol;
+
+    cout << sol.maxProduct(31) << endl;   // 3
+    cout << sol.maxProduct(22) << endl;   // 4
+    cout << sol.maxProduct(124) << endl;  // 8
+    cout << sol.maxProduct(944) << endl;  // 36
+
+    return 0;
+}

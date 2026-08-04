@@ -1,0 +1,24 @@
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+
+        total_gas = 0
+        tank = 0
+        start = 0
+
+        for i in range(len(gas)):
+
+            difference = gas[i] - cost[i]
+
+            total_gas += difference
+            tank += difference
+
+            # Cannot reach next station
+            if tank < 0:
+                start = i + 1
+                tank = 0
+
+        # If total gas is enough, start is valid
+        if total_gas >= 0:
+            return start
+
+        return -1

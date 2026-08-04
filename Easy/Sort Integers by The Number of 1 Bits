@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+
+vector<int> sortByBits(vector<int>& arr) {
+
+
+    sort(arr.begin(), arr.end(), [](int a, int b) {
+
+
+        int countA = __builtin_popcount(a);
+        int countB = __builtin_popcount(b);
+
+
+
+        if (countA == countB)
+            return a < b;
+
+
+
+        return countA < countB;
+
+    });
+
+
+
+    return arr;
+
+}
+
+
+
+int main() {
+
+
+    vector<int> arr = {0,1,2,3,4,5,6,7,8};
+
+
+
+    vector<int> result = sortByBits(arr);
+
+
+
+    for (int x : result) {
+        cout << x << " ";
+    }
+
+
+    return 0;
+}

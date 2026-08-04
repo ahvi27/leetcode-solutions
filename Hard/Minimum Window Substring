@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if (s.size() < t.size()) return "";
+
+        vector<int> need(128, 0);
+        for (char c : t) need[c]++;
+
+        int required = t.size();
+        int left = 0;
+        int minLen = INT_MAX;
+        int start = 0;
+
+        for (int right = 0; right < s.size(); right++) {
+            if (need[s[right]] > 0)
+                required--;
+
+            need[s[right]]--;
+
+            while (required == 0) {
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
+                    start = left;
+                }
+
+                need[s[left]]++;
+                if (need[s[left]] > 0)
+                    required++;
+
+                left++;
+            }
+        }
+
+        return minLen == INT_MAX ? "" : s.substr(start, minLen);
+    }
+};
+
+int main() {
+    Solution sol;
+
+    cout << sol.minWindow("ADOBECODEBANC", "ABC") << endl; // BANC
+    cout << sol.minWindow("a", "a") << endl;               // a
+    cout << sol.minWindow("a", "aa") << endl;              // ""
+    cout << sol.minWindow("aa", "aa") << endl;             // aa
+
+    return 0;
+}

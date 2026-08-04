@@ -1,0 +1,69 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int maximumGap(vector<int>& nums) {
+
+        int n = nums.size();
+
+        if (n < 2)
+            return 0;
+
+        int mn = *min_element(nums.begin(), nums.end());
+        int mx = *max_element(nums.begin(), nums.end());
+
+        if (mn == mx)
+            return 0;
+
+        int bucketSize = max(1, (mx - mn) / (n - 1));
+
+        int bucketCount = (mx - mn) / bucketSize + 1;
+
+        vector<int> bucketMin(bucketCount, INT_MAX);
+        vector<int> bucketMax(bucketCount, INT_MIN);
+
+        vector<bool> used(bucketCount, false);
+
+        for (int num : nums) {
+
+            int idx = (num - mn) / bucketSize;
+
+            bucketMin[idx] = min(bucketMin[idx], num);
+            bucketMax[idx] = max(bucketMax[idx], num);
+
+            used[idx] = true;
+        }
+
+        int ans = 0;
+        int prev = mn;
+
+        for (int i = 0; i < bucketCount; i++) {
+
+            if (!used[i])
+                continue;
+
+            ans = max(ans, bucketMin[i] - prev);
+
+            prev = bucketMax[i];
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+
+    vector<int> nums = {3, 6, 9, 1};
+
+    Solution sol;
+
+    cout << "Maximum Gap: "
+         << sol.maximumGap(nums)
+         << endl;
+
+    return 0;
+}

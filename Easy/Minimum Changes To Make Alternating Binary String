@@ -1,0 +1,21 @@
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int minOperations(string s) {
+        int n = s.length();
+        int c1 = 0; // Changes for "010101..." pattern
+        
+        for (int i = 0; i < n; ++i) {
+            char expected = (i % 2 == 0) ? '0' : '1';
+            if (s[i] != expected) {
+                c1++;
+            }
+        }
+        
+        return min(c1, n - c1);
+    }
+};

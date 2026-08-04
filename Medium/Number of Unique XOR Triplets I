@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
+class Solution {
+public:
+    int uniqueXorTriplets(vector<int>& nums) {
+        unordered_set<int> st;
+        int n = nums.size();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                for (int k = j; k < n; k++) {
+                    st.insert(nums[i] ^ nums[j] ^ nums[k]);
+                }
+            }
+        }
+
+        return st.size();
+    }
+};
+
+int main() {
+    Solution sol;
+    vector<int> nums = {1, 2};
+
+    cout << sol.uniqueXorTriplets(nums) << endl;
+
+    return 0;
+}

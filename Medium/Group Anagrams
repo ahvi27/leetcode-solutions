@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+class Solution {
+public:
+
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+
+        unordered_map<string, vector<string>> mp;
+
+
+        for (string s : strs) {
+
+            string key = s;
+
+            sort(key.begin(), key.end());
+
+
+            mp[key].push_back(s);
+        }
+
+
+        vector<vector<string>> ans;
+
+
+        for (auto &it : mp) {
+
+            ans.push_back(it.second);
+        }
+
+
+        return ans;
+    }
+};
+
+
+
+int main() {
+
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+
+    int n;
+
+    cin >> n;
+
+
+    vector<string> strs(n);
+
+
+    for (int i = 0; i < n; i++) {
+
+        cin >> strs[i];
+    }
+
+
+    Solution sol;
+
+
+    vector<vector<string>> result =
+        sol.groupAnagrams(strs);
+
+
+
+    for (auto &group : result) {
+
+        cout << "[";
+
+        for (int i = 0; i < group.size(); i++) {
+
+            cout << group[i];
+
+            if (i + 1 < group.size())
+                cout << ",";
+        }
+
+        cout << "]\n";
+    }
+
+
+    return 0;
+}

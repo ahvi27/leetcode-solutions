@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> matrix(n, vector<int>(n));
+
+        int top = 0, bottom = n - 1;
+        int left = 0, right = n - 1;
+        int num = 1;
+
+        while (top <= bottom && left <= right) {
+            // Left to Right
+            for (int j = left; j <= right; j++)
+                matrix[top][j] = num++;
+            top++;
+
+            // Top to Bottom
+            for (int i = top; i <= bottom; i++)
+                matrix[i][right] = num++;
+            right--;
+
+            // Right to Left
+            if (top <= bottom) {
+                for (int j = right; j >= left; j--)
+                    matrix[bottom][j] = num++;
+                bottom--;
+            }
+
+            // Bottom to Top
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--)
+                    matrix[i][left] = num++;
+                left++;
+            }
+        }
+
+        return matrix;
+    }
+};
+
+int main() {
+    Solution sol;
+    int n = 3;
+
+    vector<vector<int>> result = sol.generateMatrix(n);
+
+    for (auto &row : result) {
+        for (int x : row)
+            cout << x << " ";
+        cout << endl;
+    }
+
+    return 0;
+}

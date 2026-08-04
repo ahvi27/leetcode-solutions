@@ -1,0 +1,21 @@
+class Solution:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+
+        if root is None:
+            return True
+
+        def isMirror(left, right):
+
+            # Both nodes are empty
+            if left is None and right is None:
+                return True
+
+            # One node is empty or values don't match
+            if left is None or right is None or left.val != right.val:
+                return False
+
+            # Check mirror positions
+            return (isMirror(left.left, right.right) and
+                    isMirror(left.right, right.left))
+
+        return isMirror(root.left, root.right)

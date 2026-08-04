@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+
+int minPartitions(string n) {
+
+
+    int ans = 0;
+
+
+    for(char c : n) {
+
+        ans = max(ans, c - '0');
+
+    }
+
+
+    return ans;
+
+}
+
+
+
+int main() {
+
+
+    string n = "82734";
+
+
+    cout << minPartitions(n);
+
+
+    return 0;
+}
